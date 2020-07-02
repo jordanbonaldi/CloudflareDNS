@@ -22,7 +22,8 @@ export default new class Cloudflare {
             uri: this.endPoint + url,
             headers: {
                 'content-type': 'application/json',
-                Authorization: `Bearer ${this.config.cloudflareToken}`
+                'X-Auth-Email': this.config.email,
+                'X-Auth-Key': this.config.cloudflareToken
             },
             json: true,
             ...options

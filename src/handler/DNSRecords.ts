@@ -58,9 +58,13 @@ export default new class DNSRecord {
      * @param zone
      * @param record
      */
-    updateRecord(zone: IZone | string, record: IRecordBody): Promise<IRecord> {
-        return Cloudflare.cloudPut<IRecord, IRecordBody>(`zones/${(typeof zone === "string" ? {id: zone} as IZone :
-        zone).id}/dns_records/${record.id}`, record);
+    updateRecord(zone: IZone | string, record: IRecordBody): Promise<IRecord | undefined> {
+        return this.getRecordByName(zone, record.name).then((recordL: IRecord | undefined) => {
+            if (recordL == null) return undefined;
+
+            return Cloudflare.cloudPut<IRecord, IRecordBody>(`zones/${(typeof zone === "string" ? {id: zone} as IZone :
+                zone).id}/dns_records/${recordL.id}`, record);
+        })
     }
 
     /**
