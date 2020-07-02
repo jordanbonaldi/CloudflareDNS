@@ -10,7 +10,6 @@ export default new class DNSRecord {
      * @param zone
      */
     listRecords(zone: IZone): Promise<IRecord[]> {
-        console.log(zone);
         return Cloudflare.cloudRequest<IRecord[]>(`zones/${zone.id}/dns_records`);
     }
 
